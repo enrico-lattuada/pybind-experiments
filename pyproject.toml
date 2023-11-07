@@ -1,0 +1,23 @@
+[build-system]
+requires = [
+    "setuptools>=47",
+    "setuptools_scm",
+    "wheel",
+    "cmake",
+]
+
+[project]
+name = "pybind_experiments"
+description = "Experiment with pybind11, C++, CUDA, and CMake"
+readme = "README.md"
+authors = [
+    { name ="Enrico Lattuada", email = "lattuada.enrico@gmail.com" },
+]
+maintainers = [
+    { name ="Enrico Lattuada", email = "lattuada.enrico@gmail.com" },
+]
+requires-python = ">=3.8"
+dependencies = [
+    'numpy',
+]
+dynamic = [ "license", "version" ]
