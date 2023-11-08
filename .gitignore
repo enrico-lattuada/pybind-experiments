@@ -1,0 +1,4 @@
+.vs
+build
+*.egg*
+tests/__pycache__
