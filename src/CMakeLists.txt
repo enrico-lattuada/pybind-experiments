@@ -1,0 +1,24 @@
+# Set Python files
+SET(python_SOURCES
+    python/__init__.py
+)
+
+# Configure Python files in the list and write them in the output directory
+# Define the macro
+macro(configure_files LIST_VARNAME OUTPUT_DIR)
+  foreach(file ${${LIST_VARNAME}})
+    get_filename_component(filename ${file} NAME)
+    configure_file(${file} ${OUTPUT_DIR}/${filename})
+  endforeach()
+endmacro()
+
+# Configure the files
+configure_files(python_SOURCES ${PYBINDEXP_OUTPUT_DIR})
+
+# Manually configure the make_install_setup.py
+configure_file(python/make_install_setup.py
+    ${PYBINDEXP_OUTPUT_DIR}/setup.py)
+
+
+# Install the module
+install(CODE "execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install ${PYBINDEXP_OUTPUT_DIR})")
