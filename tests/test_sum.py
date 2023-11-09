@@ -17,3 +17,8 @@ def baseline():
 def test_sum_python(baseline):
     # check that the result is correct
     assert np.isclose(a + b, baseline).all()
+
+
+def test_sum_cpp(baseline):
+    # check that the result is correct
+    assert np.isclose(pe.add_arrays_cpp(a, b), baseline).all()
