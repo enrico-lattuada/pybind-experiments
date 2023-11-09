@@ -1,0 +1,4 @@
+name: Build and install package
+
+on:
+  workflow-dispatch
