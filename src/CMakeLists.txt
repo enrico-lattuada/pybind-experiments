@@ -14,6 +14,13 @@ SET_TARGET_PROPERTIES(mysum PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
 )
 
+# Add suffix .so for UNIX systems
+IF(NOT WIN32)
+  SET_TARGET_PROPERTIES(mysum PROPERTIES
+    SUFFIX ".so"
+  )
+ENDIF()
+
 # Add bindings
 pybind11_add_module(_core SHARED python/bindings.cc)
 TARGET_LINK_LIBRARIES(_core PUBLIC mysum)
