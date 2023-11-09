@@ -22,6 +22,13 @@ SET_TARGET_PROPERTIES(_core PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
 )
 
+# Add suffix .so for UNIX systems
+IF(NOT WIN32)
+  SET_TARGET_PROPERTIES(_core PROPERTIES
+    SUFFIX ".so"
+  )
+ENDIF()
+
 # Set Python files
 SET(python_SOURCES
   python/__init__.py
