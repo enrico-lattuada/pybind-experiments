@@ -35,7 +35,7 @@ jobs:
 
             - name: Cleanup directory from build and egg-info
               run: |
-                  if [ "$RUNNER_OS" == "Windows" ]; then
+                  if [[ ${{ runner.os }} = "Windows" ]]; then
                       rm build
                       rm *.egg-info
                   else
