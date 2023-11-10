@@ -33,6 +33,11 @@ jobs:
               run: |
                   python -m pip install .
 
+            - name: Cleanup directory from build and egg-info
+              run: |
+                  rm -rf build
+                  rm -rf *.egg-info
+
             - name: Run tests
               run: |
-                  python -m pytest
+                  python -m pytest -v
