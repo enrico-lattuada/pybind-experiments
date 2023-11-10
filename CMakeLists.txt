@@ -7,6 +7,21 @@ PROJECT(pybind_experiments)
 # The default behavior is to build with optimization
 SET(CMAKE_BUILD_TYPE Release)
 
+# Set the macOS rpath option
+IF(APPLE)
+    # Enable the macOS rpath
+    set(CMAKE_MACOSX_RPATH ON)
+
+    # Set the install rpath to the loader path
+    set(CMAKE_INSTALL_RPATH "@loader_path")
+
+    # Build with the install rpath
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+ELSE()
+    # Use the origin as the build rpath
+    set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+ENDIF(APPLE)
+
 # The library should be in a folder with the same name to make it easier to use python distutils
 SET(PYBINDEXP_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/src/python/pybind_experiments)
 
