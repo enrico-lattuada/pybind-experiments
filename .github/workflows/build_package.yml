@@ -14,7 +14,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [windows-latest] #[ubuntu-latest, windows-latest, macos-latest]
+                os: [ubuntu-latest, windows-latest, macos-latest]
                 python-version: ["3.11"] #["3.8", "3.11"]
         
         steps:
@@ -36,8 +36,8 @@ jobs:
             - name: Cleanup directory (Windows)
               if: ${{ runner.os == 'Windows' }}
               run: |
-                  rm build
-                  rm *.egg-info
+                  rmdir /s /q build
+                  rmdir /s /q *.egg-info
             
             - name: Cleanup directory (Unix)
               if: ${{ runner.os != 'Windows' }}
