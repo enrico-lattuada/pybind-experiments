@@ -10,16 +10,20 @@ SET(CMAKE_BUILD_TYPE Release)
 # Set the macOS rpath option
 IF(APPLE)
     # Enable the macOS rpath
-    set(CMAKE_MACOSX_RPATH ON)
+    SET(CMAKE_MACOSX_RPATH ON)
 
     # Set the install rpath to the loader path
-    set(CMAKE_INSTALL_RPATH "@loader_path")
+    SET(CMAKE_INSTALL_RPATH "@loader_path")
 
     # Build with the install rpath
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+    SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 ELSE()
     # Use the origin as the build rpath
-    set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+    IF(${CMAKE_VERSION} VERSION_LESS "3.14")
+        SET(CMAKE_INSTALL_RPATH "$ORIGIN")
+    ELSE()
+        SET(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+    ENDIF()
 ENDIF(APPLE)
 
 # The library should be in a folder with the same name to make it easier to use python distutils
