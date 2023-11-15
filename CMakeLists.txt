@@ -26,6 +26,8 @@ ELSE()
     ENDIF()
 ENDIF(APPLE)
 
+SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # The library should be in a folder with the same name to make it easier to use python distutils
 SET(PYBINDEXP_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/src/python/pybind_experiments)
 
