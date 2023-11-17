@@ -14,7 +14,7 @@ set_target_properties(foo PROPERTIES
 # Add suffix .so for UNIX systems
 IF(NOT WIN32)
     SET_TARGET_PROPERTIES(foo PROPERTIES
-        PREFIX ""
+        #PREFIX ""
         SUFFIX ".so"
     )
 ENDIF()
