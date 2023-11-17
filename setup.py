@@ -56,7 +56,7 @@ class InstallCMakeLibs(install_lib):
         Returns a list of the files copied over by the `run` method
         """
         return self.outfiles
-    
+
 
 class CMakeBuild(build_ext):
     def run(self):
@@ -67,7 +67,7 @@ class CMakeBuild(build_ext):
                 "CMake must be installed to build the following extensions: "
                 + ", ".join(e.name for e in self.extensions)
             )
-        
+
         self.cmake_version = LooseVersion(
             re.search(r"version\s*([\d.]+)", out.decode()).group(1)
         )
@@ -75,10 +75,10 @@ class CMakeBuild(build_ext):
         if platform.system() == "windows":
             if self.cmake_version < "3.1.0":
                 raise RuntimeError("CMake >= 3.1.0 is required on Windows")
-            
+
         for ext in self.extensions:
             self.build_extension(ext)
-    
+
     def build_extension(self, ext) -> None:
         self.announce("Preparing the build environment", level=3)
 
@@ -102,7 +102,7 @@ class CMakeBuild(build_ext):
                 cpu_cores = int(os.getenv("SLURM_NTASKS"))
             except:
                 cpu_cores = int(multiprocessing.cpu_count() / 2)
-            
+
             if self.cmake_version < "3.14.0":
                 native_generator_args += [f"-j{cpu_cores}"]
             else:
@@ -115,7 +115,7 @@ class CMakeBuild(build_ext):
             os.makedirs(self.build_temp)
 
         # Set the library distribution directory
-        self.distribution.lib_dir = os.path.join(self.build_temp, "src/python")
+        self.distribution.lib_dir = os.path.join(self.build_temp, "src")
 
         # Configure CMake project
         self.announce("Configuring CMake project", level=3)
@@ -163,5 +163,5 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
-    ]
+    ],
 )

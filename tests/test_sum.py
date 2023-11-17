@@ -1,24 +1,22 @@
 import pytest
-import numpy as np
 import pybind_experiments as pe
 
 # initialize arrays
-np.random.seed(42)
-a = np.random.random(3)
-b = np.random.random(3)
+a = 2.3
+b = 4.2
 
 
 @pytest.fixture
 def baseline():
     # compute baseline
-    return pe.add_arrays(a, b)
+    return a + b
 
 
-def test_sum_python(baseline):
+def test_sum(baseline):
     # check that the result is correct
-    assert np.isclose(a + b, baseline).all()
+    assert pe.add(a, b) == baseline
 
 
 def test_sum_cpp(baseline):
     # check that the result is correct
-    assert np.isclose(pe.add_arrays_cpp(a, b), baseline).all()
+    assert pe.add_cpp(a, b) == baseline
