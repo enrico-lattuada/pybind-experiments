@@ -9,6 +9,7 @@ target_link_libraries(foo PUBLIC ${Python3_LIBRARIES})
 set_target_properties(foo PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
+		WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
 
 # Add suffix .so for UNIX systems
