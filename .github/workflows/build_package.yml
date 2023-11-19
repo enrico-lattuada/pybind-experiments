@@ -14,7 +14,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [windows-latest] #[ubuntu-latest, windows-latest, macos-latest]
+                os: [ubuntu-latest, windows-latest, macos-latest]
                 python-version: ["3.10-dev"] #["3.8", "3.11"]
         
         steps:
@@ -33,12 +33,7 @@ jobs:
               run: |
                   python -m pip install .
 
-            #- name: List installed files
-            #  run: |
-            #      ls C:\hostedtoolcache\windows\Python\3.11.6\x64\Lib\site-packages\pybind_experiments
-
             - name: Run tests
               run: |
-                  cd ..
-                  python -m pytest -v pybind-experiments/tests/test_imports.py --ignore=build --cache-clear
-                  python -m pytest -v pybind-experiments/tests/test_sum.py --ignore=build --cache-clear
+                  python -m pytest -v --ignore=build --cache-clear
+              if: runner.os == 'Linux'
