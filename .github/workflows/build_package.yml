@@ -33,9 +33,9 @@ jobs:
               run: |
                   python -m pip install .
 
-            - name: List installed files
-              run: |
-                  ls C:\hostedtoolcache\windows\Python\3.11.6\x64\Lib\site-packages\pybind_experiments
+            #- name: List installed files
+            #  run: |
+            #      ls C:\hostedtoolcache\windows\Python\3.11.6\x64\Lib\site-packages\pybind_experiments
 
             - name: Run tests
               run: |
