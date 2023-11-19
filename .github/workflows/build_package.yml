@@ -39,4 +39,5 @@ jobs:
 
             - name: Run tests
               run: |
-                  python -m pytest -v --ignore=build --cache-clear
+                  cd ..
+                  python -m pytest -v pybind-experiments --ignore=build --cache-clear
