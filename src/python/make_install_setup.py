@@ -14,5 +14,5 @@ setup(
     setup_requires=["setuptools_scm"],
     packages=["pybind_experiments"],
     package_dir={"pybind_experiments": "${PYBINDEXP_OUTPUT_DIR}"},
-    package_data={"pybind_experiments": ["_core.so"]},
+    package_data={"pybind_experiments": ["_core.*"]},
 )
