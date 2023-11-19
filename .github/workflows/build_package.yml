@@ -35,11 +35,7 @@ jobs:
 
             - name: List installed files
               run: |
-                  site_packages=$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")
-                  echo "Site-packages directory: $site_packages"
-                  module_dir="$site_packages/pybind_experiments"
-                  echo "Module directory: $module_dir"
-                  ls "$module_dir"
+                  ls C:\hostedtoolcache\windows\Python\3.11.6\x64\Lib\site-packages\pybind_experiments
 
             - name: Run tests
               run: |
