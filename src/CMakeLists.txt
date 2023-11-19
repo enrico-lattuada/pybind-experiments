@@ -25,14 +25,16 @@ target_link_libraries(_core PRIVATE foo)
 set_target_properties(_core PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
+    PREFIX "${PYTHON_MODULE_PREFIX}"
+    SUFFIX "${PYTHON_MODULE_EXTENSION}"
 )
 
 # Add suffix .so for UNIX systems
-IF(NOT WIN32)
-    SET_TARGET_PROPERTIES(_core PROPERTIES
-        SUFFIX ".so"
-    )
-ENDIF()
+# IF(NOT WIN32)
+# SET_TARGET_PROPERTIES(_core PROPERTIES
+# SUFFIX ".so"
+# )
+# ENDIF()
 
 # Set Python files
 SET(python_SOURCES
