@@ -29,6 +29,12 @@ set_target_properties(_core PROPERTIES
     SUFFIX "${PYTHON_MODULE_EXTENSION}"
 )
 
+IF(WIN32)
+    set_target_properties(_core PROPERTIES
+        SUFFIX ".pyd"
+    )
+ENDIF()
+
 # Add suffix .so for UNIX systems
 # IF(NOT WIN32)
 # SET_TARGET_PROPERTIES(_core PROPERTIES
