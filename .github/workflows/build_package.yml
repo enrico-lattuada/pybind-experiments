@@ -36,4 +36,3 @@ jobs:
             - name: Run tests
               run: |
                   python -m pytest -v --ignore=build --cache-clear
-              if: runner.os == 'Linux'
