@@ -35,7 +35,7 @@ jobs:
 
             - name: Print package files
               run: |
-                  python -c "import sys; print(sys.path[-1])"
+                  python -c "import sys, os; print(os.listdir(os.path.join(sys.path[-1], 'pybind_experiments')))"
 
             - name: Run tests
               run: |
