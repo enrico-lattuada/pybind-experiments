@@ -32,7 +32,6 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-message(STATUS "Python3_ROOT_DIR: ${Python3_ROOT_DIR}")
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 add_subdirectory(lib/pybind11)
 include_directories(${Python3_INCLUDE_DIRS})
