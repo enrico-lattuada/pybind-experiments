@@ -90,13 +90,11 @@ class CMakeBuild(build_ext):
     def build_extension(self, ext) -> None:
         self.announce("Preparing the build environment", level=3)
 
-        cmake_args = [
-            f"-DPYTHON_EXECUTABLE={sys.executable}",
-        ]
-
         cfg = "Debug" if self.debug else "Release"
         build_args = ["--config", cfg]
         native_generator_args = ["--"]
+
+        cmake_args = []
 
         if platform.system() == "windows":
             if sys.maxsize > 2**32:
