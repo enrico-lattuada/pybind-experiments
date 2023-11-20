@@ -27,7 +27,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  pip install pytest
+                  pip install --upgrade pip setuptools wheel pytest
             
             - name: Build package and install through pip
               run: |
