@@ -35,4 +35,4 @@ jobs:
 
             - name: Run tests
               run: |
-                  python -m pytest -v --ignore=. --cache-clear
+                  pytest -v --cache-clear
