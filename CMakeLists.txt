@@ -32,6 +32,7 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(Python3_FIND_VIRTUALENV FIRST)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 add_subdirectory(lib/pybind11)
 include_directories(${Python3_INCLUDE_DIRS})
