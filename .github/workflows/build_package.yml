@@ -14,7 +14,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [windows-latest] # [ubuntu-latest, windows-latest, macos-latest]
+                os: [macos-latest] # [ubuntu-latest, windows-latest, macos-latest]
                 python-version: ["3.10-dev"] #["3.8", "3.11"]
         
         steps:
@@ -32,11 +32,6 @@ jobs:
             - name: Build package and install through pip
               run: |
                   python -m pip install --verbose .
-
-            - name: Print package files
-              run: |
-                  python -c "import sys, os; print(os.listdir(os.path.join(sys.path[-1], 'pybind_experiments')))"
-                  python -c "import pybind_experiments"
 
             - name: Run tests
               run: |
