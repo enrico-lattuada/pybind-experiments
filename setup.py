@@ -15,6 +15,14 @@ from setuptools.command.install_lib import install_lib
 # Set package name
 PACKAGE_NAME = "pybind_experiments"
 
+# Convert distutils Windows platform specifiers to CMake -A arguments
+PLAT_TO_CMAKE = {
+    "win32": "Win32",
+    "win-amd64": "x64",
+    "win-arm32": "ARM",
+    "win-arm64": "ARM64",
+}
+
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=""):
@@ -84,13 +92,25 @@ class CMakeBuild(build_ext):
 
         cmake_args = []
 
+        # get CMake generator
+        cmake_generator = os.environ.get("CMAKE_GENERATOR", "")
+
         cfg = "Debug" if self.debug else "Release"
         build_args = ["--config", cfg]
         native_generator_args = ["--"]
 
-        if platform.system() == "windows":
-            if sys.maxsize > 2**32:
-                cmake_args += ["-A", "x64"]
+        if self.compiler.compiler_type == "msvc":
+            # Single config generators are handled "normally"
+            single_config = any(x in cmake_generator for x in {"NMake", "Ninja"})
+
+            # CMake allows an arch-in-generator style for backward compatibility
+            contains_arch = any(x in cmake_generator for x in {"ARM", "Win64"})
+
+            # Specify the arch if using MSVC generator, but only if it doesn't
+            # contain a backward-compatibility arch spec already in the
+            # generator name.
+            if not single_config and not contains_arch:
+                cmake_args += ["-A", PLAT_TO_CMAKE[self.plat_name]]
             native_generator_args += ["/m"]
         else:
             cmake_args += ["-DCMAKE_BUILD_TYPE=" + cfg]
