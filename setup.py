@@ -90,7 +90,9 @@ class CMakeBuild(build_ext):
     def build_extension(self, ext) -> None:
         self.announce("Preparing the build environment", level=3)
 
-        cmake_args = []
+        cmake_args = [
+            f"-DPYTHON_EXECUTABLE={sys.executable}",
+        ]
 
         cfg = "Debug" if self.debug else "Release"
         build_args = ["--config", cfg]
