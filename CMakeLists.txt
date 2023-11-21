@@ -32,7 +32,6 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 set(PYBIND11_PYTHON_VERSION 3 CACHE STRING "Python version to use for compiling modules")
 add_subdirectory(lib/pybind11)
 include_directories(${Python3_INCLUDE_DIRS})
