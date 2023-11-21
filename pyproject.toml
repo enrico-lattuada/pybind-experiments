@@ -17,5 +17,7 @@ maintainers = [
     { name ="Enrico Lattuada", email = "lattuada.enrico@gmail.com" },
 ]
 requires-python = ">=3.8"
-dependencies = []
+dependencies = [
+    "numpy",
+]
 dynamic = [ "license", "version" ]
