@@ -14,8 +14,8 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [windows-latest] # [ubuntu-latest, windows-latest, macos-latest]
-                python-version: ["3.10-dev"] #["3.8", "3.11"]
+                os: [ubuntu-latest, windows-latest, macos-latest]
+                python-version: ["3.8-dev", "3.11-dev"]
         
         steps:
             - uses: actions/checkout@v3
@@ -35,4 +35,4 @@ jobs:
 
             - name: Run tests
               run: |
-                  pytest -v --cache-clear
+                  pytest -v
