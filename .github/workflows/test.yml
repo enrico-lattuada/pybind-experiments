@@ -1,12 +1,17 @@
 name: Test
 
 on:
-    #push:
-    #    branches:
-    #        - main
-    #pull_request:
-    #    branches:
-    #        - main
+    # trigger on all commits to main
+    push:
+        branches:
+            - main
+
+    # trigger on pull requests to main
+    pull_request:
+        branches:
+            - main
+
+    # trigger on request
     workflow_dispatch:
 
 jobs:
