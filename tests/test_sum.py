@@ -41,3 +41,8 @@ def baseline_arrays():
 def test_sum_arrays(baseline_arrays):
     # check that the result is correct
     assert np.isclose(pe.add_arrays(arr1, arr2), baseline_arrays).all()
+
+
+def test_sum_arrays_cpp(baseline_arrays):
+    # check that the result is correct
+    assert np.isclose(pe.add_arrays_cpp(arr1, arr2), baseline_arrays).all()

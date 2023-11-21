@@ -34,7 +34,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(PYBIND11_PYTHON_VERSION 3 CACHE STRING "Python version to use for compiling modules")
 add_subdirectory(lib/pybind11)
-include_directories(${Python3_INCLUDE_DIRS})
+MESSAGE(STATUS "Python3 include dirs: ${PYTHON_INCLUDE_DIRS}")
+include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/lib/pybind11/include)
 
 add_subdirectory(src)

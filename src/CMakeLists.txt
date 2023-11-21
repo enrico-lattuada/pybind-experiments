@@ -5,7 +5,7 @@ set(foo_SOURCES
 
 # Add foo library
 add_library(foo SHARED ${foo_SOURCES})
-target_link_libraries(foo PUBLIC ${Python3_LIBRARIES})
+target_link_libraries(foo PUBLIC ${PYTHON_LIBRARIES})
 set_target_properties(foo PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
