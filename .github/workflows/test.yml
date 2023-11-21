@@ -1,4 +1,4 @@
-name: Build and install package
+name: Build and test
 
 on:
     #push:
