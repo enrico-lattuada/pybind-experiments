@@ -8,14 +8,14 @@
     \param y Second number
     \return The sum of the two numbers
 */
-double add(double x, double y);
+double PYBIND11_EXPORT add(double x, double y);
 
 /*! \brief Add two NumPy arrays
     \param a First array
     \param b Second array
     \return The sum of the two arrays
 */
-py::array_t<double> add_arrays(py::array_t<double, py::array::c_style> a,
-                               py::array_t<double, py::array::c_style> b);
+py::array_t<double> PYBIND11_EXPORT add_arrays(py::array_t<double, py::array::c_style> a,
+                                               py::array_t<double, py::array::c_style> b);
 
 #endif // __FOO_H__
