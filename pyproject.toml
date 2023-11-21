@@ -4,6 +4,7 @@ requires = [
     "setuptools_scm",
     "wheel",
     "cmake",
+    "numpy",
 ]
 
 [project]
