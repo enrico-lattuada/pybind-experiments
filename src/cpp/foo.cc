@@ -1,7 +1,5 @@
 #include "foo.h"
 
-#include <stdint.h>
-
 double add(const double &x, const double &y)
 {
     return x + y;
