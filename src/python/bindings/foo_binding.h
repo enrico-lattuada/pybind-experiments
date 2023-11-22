@@ -8,7 +8,8 @@
 void bind_foo(py::module &m)
 {
     m.def("add", &add);
-    m.def("add_arrays", &add_arrays);
+    m.def("add_arrays", &add_arrays<double>);
+    m.def("add_arrays", &add_arrays<int64_t>);
 }
 
 #endif // __FOO_BINDING_H__
