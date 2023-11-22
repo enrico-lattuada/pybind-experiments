@@ -1,6 +1,6 @@
 #include "foo.h"
 
-#include <iostream>
+#include <stdint.h>
 
 double add(const double &x, const double &y)
 {
