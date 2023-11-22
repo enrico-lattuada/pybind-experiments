@@ -3,8 +3,6 @@
 
 #include "../python_defs.h"
 
-#include <stdint.h>
-
 /*! \brief Add two numbers
     \param x First number
     \param y Second number
