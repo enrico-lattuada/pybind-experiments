@@ -49,7 +49,7 @@ def test_sum_arrays_cpp(baseline_arrays):
 
 
 def test_check_sum_arrays_type():
-    # check that the result is correct
+    # check that the type is correct
     assert pe.add_arrays_cpp(arr1, arr2).dtype == float
     assert (
         pe.add_arrays_cpp(arr1.astype(np.int64), arr2.astype(np.int64)).dtype
