@@ -15,6 +15,14 @@ from setuptools.command.install_lib import install_lib
 # Set package name
 PACKAGE_NAME = "pybind_experiments"
 
+# Convert distutils Windows platform specifiers to CMake -A arguments
+PLAT_TO_CMAKE = {
+    "win32": "Win32",
+    "win-amd64": "x64",
+    "win-arm32": "ARM",
+    "win-arm64": "ARM64",
+}
+
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=""):
@@ -56,7 +64,7 @@ class InstallCMakeLibs(install_lib):
         Returns a list of the files copied over by the `run` method
         """
         return self.outfiles
-    
+
 
 class CMakeBuild(build_ext):
     def run(self):
@@ -67,7 +75,7 @@ class CMakeBuild(build_ext):
                 "CMake must be installed to build the following extensions: "
                 + ", ".join(e.name for e in self.extensions)
             )
-        
+
         self.cmake_version = LooseVersion(
             re.search(r"version\s*([\d.]+)", out.decode()).group(1)
         )
@@ -75,25 +83,31 @@ class CMakeBuild(build_ext):
         if platform.system() == "windows":
             if self.cmake_version < "3.1.0":
                 raise RuntimeError("CMake >= 3.1.0 is required on Windows")
-            
+
         for ext in self.extensions:
             self.build_extension(ext)
-    
+
     def build_extension(self, ext) -> None:
         self.announce("Preparing the build environment", level=3)
-
-        cmake_args = []
 
         cfg = "Debug" if self.debug else "Release"
         build_args = ["--config", cfg]
         native_generator_args = ["--"]
 
+        cmake_args = []
+
         if platform.system() == "windows":
             if sys.maxsize > 2**32:
-                cmake_args += ["-A", "x64"]
+                cmake_args += ["-A", PLAT_TO_CMAKE[self.plat_name]]
             native_generator_args += ["/m"]
         else:
             cmake_args += ["-DCMAKE_BUILD_TYPE=" + cfg]
+
+        if sys.platform.startswith("darwin"):
+            # Cross-compile support for macOS - respect ARCHFLAGS if set
+            archs = re.findall(r"-arch (\S+)", os.environ.get("ARCHFLAGS", ""))
+            if archs:
+                cmake_args += ["-DCMAKE_OSX_ARCHITECTURES={}".format(";".join(archs))]
 
         # Set CMAKE_BUILD_PARALLEL_LEVEL to control the parallel build level
         # across all generators
@@ -102,7 +116,7 @@ class CMakeBuild(build_ext):
                 cpu_cores = int(os.getenv("SLURM_NTASKS"))
             except:
                 cpu_cores = int(multiprocessing.cpu_count() / 2)
-            
+
             if self.cmake_version < "3.14.0":
                 native_generator_args += [f"-j{cpu_cores}"]
             else:
@@ -115,7 +129,7 @@ class CMakeBuild(build_ext):
             os.makedirs(self.build_temp)
 
         # Set the library distribution directory
-        self.distribution.lib_dir = os.path.join(self.build_temp, "src/python")
+        self.distribution.lib_dir = os.path.join(self.build_temp, "src")
 
         # Configure CMake project
         self.announce("Configuring CMake project", level=3)
@@ -163,5 +177,5 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
-    ]
+    ],
 )
