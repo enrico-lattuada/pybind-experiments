@@ -2,9 +2,9 @@ name: Test
 
 on:
     # trigger on all commits to main
-    push:
-        branches:
-            - main
+    #push:
+    #    branches:
+    #        - main
 
     # trigger on pull requests to main
     pull_request:
