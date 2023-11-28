@@ -23,6 +23,23 @@ PLAT_TO_CMAKE = {
     "win-arm64": "ARM64",
 }
 
+# Get cmake flags from environment variables
+def get_cmake_bool_flag(name, default_value=None):
+    """
+    Get cmake boolean flag from environment variables.
+    `default_value` input can be either None or a bool
+    """
+    true_ = ("on", "true", "1", "t")  # Add more entries if you want...
+    false_ = ("off", "false", "0", "f")  # Add more entries if you want...
+    value = os.getenv(name, None)
+    if value is None:
+        if default_value is None:
+            raise ValueError(f"Variable `{name}` not set!")
+        else:
+            value = str(default_value)
+    if value.lower() not in true_ + false_:
+        raise ValueError(f"Invalid value `{value}` for variable `{name}`")
+    return value.lower() in true_
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=""):
@@ -108,6 +125,14 @@ class CMakeBuild(build_ext):
             archs = re.findall(r"-arch (\S+)", os.environ.get("ARCHFLAGS", ""))
             if archs:
                 cmake_args += ["-DCMAKE_OSX_ARCHITECTURES={}".format(";".join(archs))]
+
+        # Set optional CMake flags
+        # GPU support
+        if get_cmake_bool_flag("ENABLE_GPU", False):
+            if platform.system() in ["Windows", "Linux"]:
+                cmake_args += ["-DENABLE_GPU=ON"]
+            else:
+                raise RuntimeError("Cannot build with CUDA on Apple.")
 
         # Set CMAKE_BUILD_PARALLEL_LEVEL to control the parallel build level
         # across all generators

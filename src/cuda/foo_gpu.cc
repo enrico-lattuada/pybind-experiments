@@ -1,8 +1,16 @@
 #include "foo_gpu.h"
+#include "foo_gpu.cuh"
 
 double add_gpu(const double &x, const double &y)
 {
-    return x + y;
+    // Declare the output variable
+    double result;
+
+    // Add the two numbers on the GPU
+    add_on_device(&x, &y, &result);
+
+    // Return the result
+    return result;
 }
 
 template <typename T>
@@ -36,10 +44,8 @@ py::array_t<T> add_arrays_gpu(const py::array_t<T, py::array::c_style> a,
     // the last can also be
     //      auto result_ptr = result.mutable_data();
 
-    for (int i = 0; i < a_info.size; i++)
-    {
-        result_ptr[i] = a_ptr[i] + b_ptr[i];
-    }
+    // Add the two arrays on the GPU
+    add_arrays_on_device(a_ptr, b_ptr, a_info.size, result_ptr);
 
     return result;
 }
