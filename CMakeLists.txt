@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
+OPTION(ENABLE_GPU "Set to ON to compile with CUDA support" OFF)
+
 project(pybind_experiments)
 
 # The default behavior is to build in Release mode
@@ -36,5 +38,13 @@ set(PYBIND11_PYTHON_VERSION 3 CACHE STRING "Python version to use for compiling 
 add_subdirectory(lib/pybind11)
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/lib/pybind11/include)
+
+# Build with CUDA
+if(ENABLE_GPU)
+    enable_language(CUDA)
+
+    # Set CUDA C++ standard
+    set(CMAKE_CUDA_STANDARD 11)
+endif(ENABLE_GPU)
 
 add_subdirectory(src)
