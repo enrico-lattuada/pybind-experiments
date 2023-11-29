@@ -19,8 +19,9 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                os: [ubuntu-latest, windows-latest]
-                python-version: ["3.8-dev", "3.11-dev"]
+                os: [ubuntu-latest] #[ubuntu-latest, windows-latest]
+                python-version: ["3.8-dev"] #["3.8-dev", "3.11-dev"]
+                cuda: "12.1"
         
         steps:
             - uses: actions/checkout@v3
@@ -31,10 +32,11 @@ jobs:
                   python-version: ${{ matrix.python-version }}
 
             - name: Set up CUDA
-              uses: Jimver/cuda-toolkit@v0.2.11
-              id: cuda-toolkit
-              with:
-                cuda: '12.1.0'
+              if: contains(matrix.os, 'ubuntu')
+              env:
+                cuda: ${{ matrix.cuda }}
+              run: .github/action-scripts/install-cuda-ubuntu.sh
+              shell: bash
 
             - name: Install dependencies
               run: |
