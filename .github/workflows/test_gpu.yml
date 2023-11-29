@@ -48,6 +48,8 @@ jobs:
               run: |
                   pip install --verbose .
 
-            - name: Run tests
+            # we cannot really test without a GPU
+            # so we only check the import from command line
+            - name: Run test import
               run: |
-                  pytest -v
+                  python -c 'import pybind_experiments'
