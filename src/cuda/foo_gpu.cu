@@ -1,5 +1,10 @@
 #include "foo_gpu.cuh"
 
+__global__ void add_kernel(double *a, double *b, double *c)
+{
+    *c = *a + *b;
+}
+
 void add_on_device(const double *a, const double *b, double *c)
 {
     // Declare device pointers
@@ -26,10 +31,18 @@ void add_on_device(const double *a, const double *b, double *c)
     cudaFree(d_c);
 }
 
-__global__ void add_kernel(double *a, double *b, double *c)
+template <typename T>
+__global__ void add_arrays_kernel(T *a, T *b, int n, T *c)
 {
-    *c = *a + *b;
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n)
+    {
+        c[i] = a[i] + b[i];
+    }
 }
+
+template __global__ void add_arrays_kernel<double>(double *a, double *b, int n, double *c);
+template __global__ void add_arrays_kernel<int64_t>(int64_t *a, int64_t *b, int n, int64_t *c);
 
 template <typename T>
 void add_arrays_on_device(const T *a, const T *b, int n, T *c)
@@ -62,16 +75,3 @@ void add_arrays_on_device(const T *a, const T *b, int n, T *c)
 
 template void add_arrays_on_device<double>(const double *a, const double *b, int n, double *c);
 template void add_arrays_on_device<int64_t>(const int64_t *a, const int64_t *b, int n, int64_t *c);
-
-template <typename T>
-__global__ void add_arrays_kernel(T *a, T *b, int n, T *c)
-{
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
-    if (i < n)
-    {
-        c[i] = a[i] + b[i];
-    }
-}
-
-template __global__ void add_arrays_kernel<double>(double *a, double *b, int n, double *c);
-template __global__ void add_arrays_kernel<int64_t>(int64_t *a, int64_t *b, int n, int64_t *c);
