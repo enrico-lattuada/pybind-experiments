@@ -1,7 +1,7 @@
 # pybind-experiments
 
 [![GitHub Actions](https://github.com/enrico-lattuada/pybind-experiments/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/enrico-lattuada/pybind-experiments/actions/workflows/test.yml)
-[![GitHub Actions](https://github.com/enrico-lattuada/pybind-experiments/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/enrico-lattuada/pybind-experiments/actions/workflows/test_gpu.yml)
+[![GitHub Actions](https://github.com/enrico-lattuada/pybind-experiments/actions/workflows/test_gpu.yml/badge.svg?branch=main)](https://github.com/enrico-lattuada/pybind-experiments/actions/workflows/test_gpu.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.8%20%7C%203.11-blue)
 
