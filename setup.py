@@ -154,7 +154,7 @@ class CMakeBuild(build_ext):
             os.makedirs(self.build_temp)
 
         # Set the library distribution directory
-        self.distribution.lib_dir = os.path.join(self.build_temp, "src")
+        self.distribution.lib_dir = os.path.join(self.build_temp, "src/python")
 
         # Configure CMake project
         self.announce("Configuring CMake project", level=3)

@@ -26,7 +26,7 @@ else()
 endif()
 
 # Set output directory
-set(PYBINDEXP_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/src/pybind_experiments)
+set(PYBINDEXP_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/src/python/pybind_experiments)
 
 enable_language(CXX)
 
