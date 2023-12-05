@@ -65,7 +65,7 @@ if(ENABLE_GPU)
     )
 
     if(${CMAKE_VERSION} VERSION_LESS "3.18.0")
-        target_compile_options(foo_gpu PUBLIC $<$<COMPILE_LANGUAGE:CUDA>:-arch=sm_${_cuda_min_arch})
+        target_compile_options(foo_gpu PUBLIC $<$<COMPILE_LANGUAGE:CUDA>:-arch=sm_${_cuda_min_arch}>)
     else()
         set_target_properties(foo_gpu PROPERTIES
             CUDA_ARCHITECTURES ${_cuda_min_arch}
