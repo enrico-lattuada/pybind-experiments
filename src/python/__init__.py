@@ -5,3 +5,4 @@ from . import config
 
 if config.IS_GPU_ENABLED:
     from ._core_gpu import add_gpu, add_arrays_gpu  # noqa: F401
+    from ._core_gpu import set_device  # noqa: F401

@@ -1,6 +1,8 @@
 #include "foo_gpu.h"
 #include "foo_gpu.cuh"
 
+// #include "helper_foo.h"
+
 double add_gpu(const double &x, const double &y)
 {
     // Declare the output variable
@@ -53,3 +55,26 @@ template py::array_t<double> PYBIND11_EXPORT add_arrays_gpu(const py::array_t<do
                                                             const py::array_t<double, py::array::c_style> b);
 template py::array_t<int64_t> PYBIND11_EXPORT add_arrays_gpu(const py::array_t<int64_t, py::array::c_style> a,
                                                              const py::array_t<int64_t, py::array::c_style> b);
+
+void PYBIND11_EXPORT set_device(int device_id)
+{
+    // Get number of available devices
+    int deviceCount;
+    cudaError_t status = cudaGetDeviceCount(&deviceCount);
+
+    if (status != cudaSuccess)
+    {
+        throw std::runtime_error("Failed to get CUDA device count. Error: " + std::string(cudaGetErrorString(status)));
+    }
+
+    // Set device
+    if (device_id < 0 || device_id >= deviceCount)
+    {
+        throw std::runtime_error("Invalid GPU ID provided. Valid ID range: 0 <= id < " + std::to_string(deviceCount));
+    }
+    else
+    {
+        int valid_devices[] = {device_id};
+        cudaSetValidDevices(valid_devices, 1);
+    }
+}

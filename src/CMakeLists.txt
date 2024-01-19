@@ -13,6 +13,7 @@ set(foo_SOURCES
 # Set foo_gpu sources
 set(foo_gpu_SOURCES
     cuda/foo_gpu.cc
+    cuda/helper_foo.cc
 )
 
 # Set foo_gpu_cu sources
@@ -57,7 +58,7 @@ if(ENABLE_GPU)
     include(CUDAsetup.cmake)
 
     add_library(foo_gpu SHARED ${foo_gpu_SOURCES} ${foo_gpu_cu_SOURCES})
-    target_link_libraries(foo_gpu PUBLIC ${PYTHON_LIBRARIES})
+    target_link_libraries(foo_gpu PUBLIC ${PYTHON_LIBRARIES} CUDA::nvml)
     set_target_properties(foo_gpu PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
         RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}

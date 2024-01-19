@@ -42,6 +42,7 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/pybind11/include)
 # Build with CUDA
 if(ENABLE_GPU)
     enable_language(CUDA)
+    find_package(CUDAToolkit REQUIRED)
 
     # Set CUDA C++ standard
     set(CMAKE_CUDA_STANDARD 11)
