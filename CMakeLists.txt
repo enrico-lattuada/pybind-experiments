@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.18)
 
 OPTION(ENABLE_GPU "Set to ON to compile with CUDA support" OFF)
 
@@ -18,11 +18,7 @@ if(APPLE)
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 else()
     # Use ORIGIN as the build rpath
-    IF(${CMAKE_VERSION} VERSION_LESS "3.14")
-        SET(CMAKE_INSTALL_RPATH "$ORIGIN")
-    ELSE()
-        SET(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
-    ENDIF()
+    SET(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 endif()
 
 # Set output directory
@@ -45,6 +41,9 @@ if(ENABLE_GPU)
 
     # Set CUDA C++ standard
     set(CMAKE_CUDA_STANDARD 11)
+
+    # Find CUDA Toolkit
+    find_package(CUDAToolkit REQUIRED)
 endif(ENABLE_GPU)
 
 add_subdirectory(src)
