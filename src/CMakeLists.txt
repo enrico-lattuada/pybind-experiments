@@ -26,12 +26,28 @@ endif(ENABLE_GPU)
 
 # Add foo library
 add_library(foo SHARED ${foo_SOURCES})
-target_link_libraries(foo PUBLIC ${PYTHON_LIBRARIES})
+
+# Explicitly link python libraries only for Windows
+if(WIN32)
+    target_link_libraries(foo PUBLIC ${PYTHON_LIBRARIES})
+endif(WIN32)
+
 set_target_properties(foo PROPERTIES
+
+    # Linux and macOS
     LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
+
+    # Windows
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
     WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
+
+# On macOS, allow undefined symbols in shared libraries to be resolved dynamically at runtime.
+if(APPLE)
+    set_target_properties(foo PROPERTIES
+        LINK_FLAGS "-undefined dynamic_lookup"
+    )
+endif(APPLE)
 
 # Add suffix .so for UNIX systems
 if(NOT WIN32)
@@ -41,12 +57,18 @@ if(NOT WIN32)
 endif()
 
 # Add _core library (with Python bindings)
-pybind11_add_module(_core SHARED python/module.cc)
-target_compile_definitions(_core PUBLIC ENABLE_GPU)
+pybind11_add_module(_core MODULE python/module.cc)
+
+# target_compile_definitions(_core PUBLIC ENABLE_GPU)
 target_link_libraries(_core PRIVATE foo)
 set_target_properties(_core PROPERTIES
+
+    # Linux and macOS
     LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
+
+    # Windows
+    # For modules, we use the library_output_directory_release
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
     PREFIX "${PYTHON_MODULE_PREFIX}"
     SUFFIX "${PYTHON_MODULE_EXTENSION}"
 )
@@ -57,20 +79,25 @@ if(ENABLE_GPU)
     include(CUDAsetup.cmake)
 
     add_library(foo_gpu SHARED ${foo_gpu_SOURCES} ${foo_gpu_cu_SOURCES})
-    target_link_libraries(foo_gpu PUBLIC ${PYTHON_LIBRARIES})
+
+    # Explicitly link python libraries only for Windows
+    if(WIN32)
+        target_link_libraries(foo_gpu PUBLIC ${PYTHON_LIBRARIES})
+    endif(WIN32)
+
     set_target_properties(foo_gpu PROPERTIES
+
+        # Linux and macOS
         LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
+
+        # Windows
         RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
         WINDOWS_EXPORT_ALL_SYMBOLS ON
     )
 
-    if(${CMAKE_VERSION} VERSION_LESS "3.18.0")
-        target_compile_options(foo_gpu PUBLIC $<$<COMPILE_LANGUAGE:CUDA>:-arch=sm_${_cuda_min_arch})
-    else()
-        set_target_properties(foo_gpu PROPERTIES
-            CUDA_ARCHITECTURES ${_cuda_min_arch}
-        )
-    endif()
+    set_target_properties(foo_gpu PROPERTIES
+        CUDA_ARCHITECTURES ${_cuda_min_arch}
+    )
 
     # Add suffix .so for UNIX systems
     if(NOT WIN32)
@@ -79,12 +106,25 @@ if(ENABLE_GPU)
         )
     endif()
 
+    # On macOS, allow undefined symbols in shared libraries to be resolved dynamically at runtime.
+    # This should not be necessary, since CUDA is not supported on macOS, but you never know.
+    if(APPLE)
+        set_target_properties(fddm_cuda PROPERTIES
+            LINK_FLAGS "-undefined dynamic_lookup"
+        )
+    endif(APPLE)
+
     # Add _core_gpu library (with Python bindings)
-    pybind11_add_module(_core_gpu SHARED python/module_gpu.cc)
+    pybind11_add_module(_core_gpu MODULE python/module_gpu.cc)
     target_link_libraries(_core_gpu PRIVATE foo_gpu)
     set_target_properties(_core_gpu PROPERTIES
+
+        # Linux and macOS
         LIBRARY_OUTPUT_DIRECTORY ${PYBINDEXP_OUTPUT_DIR}
-        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
+
+        # Windows
+        # For modules, we use the library_output_directory_release
+        LIBRARY_OUTPUT_DIRECTORY_RELEASE ${PYBINDEXP_OUTPUT_DIR}
         PREFIX "${PYTHON_MODULE_PREFIX}"
         SUFFIX "${PYTHON_MODULE_EXTENSION}"
     )
